@@ -18,7 +18,7 @@ export default function LoginPage(props) {
   }).then(res =>{
     makeToast("success", res.data.message)
     localStorage.setItem("chat_token", res.data.token)
-    navigate('/dashboard')
+    navigate('/auth/dashboard')
     props.setupSocket()
   }).catch(err => {
     makeToast("error", err.response.data.message)

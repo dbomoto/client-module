@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react"
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from "react"
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import makeToast from "../Toaster"
 
 export default function DashboardPage(props) {
   const [chatrooms, setChatrooms] = useState([])
+  const chatroomNameRef = useRef();
+  const navigate = useNavigate();
+  const socket = props.socket;
 
   const getChatrooms = () => {
     axios.get("http://localhost:4000/chatroom", {
@@ -18,21 +22,56 @@ export default function DashboardPage(props) {
   }
 
   useEffect(() => {
-    getChatrooms();
+    if (localStorage.getItem('chat_token')) {
+      getChatrooms()
+    } else {
+      makeToast('error', 'Please login first.')
+      navigate('/login')
+    }
+
   }, [])
+
+  const createChatroom = () => {
+    const chatroomName = chatroomNameRef.current.value;
+
+    axios
+      .post("http://localhost:4000/chatroom",
+        {
+          name: chatroomName,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("chat_token"),
+          },
+        })
+      .then((response) => {
+        makeToast("success", response.data.message);
+        getChatrooms();
+        chatroomNameRef.current.value = "";
+      })
+      .catch((err) => {
+        if (
+          err &&
+          err.response &&
+          err.response.data &&
+          err.response.data.message
+        )
+          makeToast("error", err.response.data.message);
+      });
+  };
 
   return (
     <div>
       <label htmlFor="chatroomName">Chatroom Name</label>
-      <input type='text' name='chatroomName' id='chatroomName'></input>
-      <button type='submit'>Create Chatroom</button>
+      <input type='text' name='chatroomName' id='chatroomName' ref={chatroomNameRef}></input>
+      <button onClick={createChatroom}>Create Chatroom</button>
       <div>
         {chatrooms.map((room) => (
-          <div key={room._id}>
-            <div>{room.name}</div>
-            <Link to={'/chatroom/' + room._id}>
-              <button>Join</button>
+          <div key={room._id} className="flex flex-row space-x-5">
+            <Link to={'/auth/chatroom/' + room._id}>
+              <button>Chat</button>
             </Link>
+            <div>{room.name}</div>
           </div>
         ))}
       </div>
