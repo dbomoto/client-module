@@ -23,11 +23,42 @@ export default function DashboardPage(props) {
 
   useEffect(() => {
     if (localStorage.getItem('chat_token')) {
+      if (socket) {
+        chatrooms.map((room) => {
+          socket.emit('joinRoom', {
+            id: room._id
+          })
+        })
+
+
+      }
+
+      {/*unmounting*/ }
+      return () => {
+        if (socket) {
+          chatrooms.map((room) => {
+            socket.emit('leaveRoom', {
+              id: room._id
+            })
+          })
+        }
+      }
+    }
+  }, [chatrooms])
+
+  useEffect(() => {
+    if (localStorage.getItem('chat_token')) {
+
       getChatrooms()
+
+      socket.on('updateMessage', ({message,name}) => {
+        makeToast('info',`${name}: ${message}`)
+      })
+
     } else {
       makeToast('error', 'Please login first.')
       navigate('/login')
-    }
+    }    
 
   }, [])
 
