@@ -6,7 +6,7 @@ export default function IndexPage() {
 
     useEffect(()=>{
         const token = localStorage.getItem("chat_token");
-        !token ? navigate('/login'):navigate('/dashboard');
+        !token ? navigate('/login'):navigate('/auth/dashboard');
     },[])
     
     return (
