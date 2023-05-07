@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { Buffer } from 'buffer'
 import makeToast from '../Toaster';
+import axios from 'axios';
 
 
 export default function ChatroomPage(props) {
@@ -15,10 +16,6 @@ export default function ChatroomPage(props) {
     const location = useLocation();
     const {roomName} = location.state
 
-    const atob = (base64) => {
-        return Buffer.from(base64, 'base64').toString('binary');
-    };
-
 
     const sendMessage = () => {
         if (socket) {
@@ -31,12 +28,21 @@ export default function ChatroomPage(props) {
         }
     }
 
+    const getAccount = () => {
+        axios.post("http://localhost:4000/user/getinfo",
+          {},
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem('chat_token')
+            }
+          }).then((res) => {
+            setUserID(res.data)
+          }).catch((err) => {
+            setTimeout(getAccount, 3000)
+          })
+      }
+
     useEffect(() => {
-        const token = localStorage.getItem('chat_token')
-        if (token) {
-            const payload = JSON.parse(atob(token.split(".")[1]));
-            setUserID(payload.id)
-        }
         if (socket) {
             socket.on('newMessage', (message) => {
                 const newMessage = [...messages, message]
@@ -47,6 +53,8 @@ export default function ChatroomPage(props) {
 
     useEffect(() => {
         if (localStorage.getItem('chat_token')) {
+            getAccount();
+
             if (socket) {
                 socket.emit('joinRoom', {
                     id
@@ -85,7 +93,7 @@ export default function ChatroomPage(props) {
                 <div> {/*content*/}
                     {messages.map((message, index) => (
                         <div key={index}>
-                            <span className={userID === (message.userID || message.user) ? 'text-blue-500' : 'text-orange-500'}>{message.name}:</span>{" "}{message.message}
+                            <span className={userID._id === (message.userID || message.user) ? 'text-blue-500' : 'text-orange-500'}>{message.name}:</span>{" "}{message.message}
                         </div>
                     ))}
                 </div>
