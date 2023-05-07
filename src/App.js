@@ -10,6 +10,7 @@ import io from "socket.io-client"
 import makeToast from './Toaster'
 import './index.css'
 import Layout from "./Pages/Layout";
+import AccountPage from './Pages/AccountPage'
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -47,9 +48,10 @@ function App() {
         <Route path="/" element={<IndexPage />}></Route>
         <Route path="/login" element={<LoginPage setupSocket={setupSocket}/>}></Route>
         <Route path="/register" element={<RegisterPage />}></Route>
-        <Route path="/auth" element={<Layout />}>  
+        <Route path="/auth" element={<Layout socket={socket}/>} >  
           <Route path="dashboard" element={<DashboardPage socket={socket}/>}></Route>
           <Route path="chatroom/:id" element={<ChatroomPage socket={socket}/>}></Route>
+          <Route path="account" element={<AccountPage socket={socket}/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
