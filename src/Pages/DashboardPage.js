@@ -99,7 +99,7 @@ export default function DashboardPage(props) {
       <div>
         {chatrooms.map((room) => (
           <div key={room._id} className="flex flex-row space-x-5">
-            <Link to={'/auth/chatroom/' + room._id}>
+            <Link to={'/auth/chatroom/' + room._id} state={{roomName: room.name}}>
               <button>Chat</button>
             </Link>
             <div>{room.name}</div>

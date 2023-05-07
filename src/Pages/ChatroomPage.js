@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { Buffer } from 'buffer'
 import makeToast from '../Toaster';
 
@@ -11,6 +11,9 @@ export default function ChatroomPage(props) {
     const messageRef = useRef()
     const [userID, setUserID] = useState("");
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const {roomName} = location.state
 
     const atob = (base64) => {
         return Buffer.from(base64, 'base64').toString('binary');
@@ -77,7 +80,7 @@ export default function ChatroomPage(props) {
 
     return (
         <div>
-            <div>Chatroom Name</div>
+            <div>{roomName}</div>
             <div>
                 <div> {/*content*/}
                     {messages.map((message, index) => (
