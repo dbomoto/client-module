@@ -14,11 +14,11 @@ export default function RegisterPage() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    axios.post("http://localhost:4000/user/register",{
+    axios.post("http://localhost:4000/user/register", {
       name,
       email,
       password
-    }).then(res =>{
+    }).then(res => {
       makeToast("success", res.data.message)
       navigate("/login");
     }).catch(err => {
@@ -27,14 +27,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <div>
-      <label htmlFor="name">Name:</label>
-      <input type='text' name='name' id='name' ref={nameRef}></input>
-      <label htmlFor="email">Email:</label>
-      <input type='email' name='email' id='email' ref={emailRef}></input>
-      <label htmlFor="password">Password:</label>
-      <input type='password' name='password' id='password' ref={passwordRef}></input>
-      <button onClick={registerUser}>Register</button>
+    <div className='grid place-items-center h-screen text-2xl'>
+      <div className='flex flex-col space-y-8'>
+        <label htmlFor="name">Name:</label>
+        <input type='text' name='name' id='name' ref={nameRef} placeholder='John Doe'></input>
+        <label htmlFor="email">Email:</label>
+        <input type='email' name='email' id='email' ref={emailRef} placeholder='example@gmail.com'></input>
+        <label htmlFor="password">Password:</label>
+        <input type='password' name='password' id='password' ref={passwordRef} placeholder='Input password'></input>
+        <button onClick={registerUser} className='border-2 text-3xl'>Register</button>
+      </div>
     </div>
   )
 }

@@ -24,22 +24,17 @@ export default function DashboardPage(props) {
   useEffect(() => {
     if (localStorage.getItem('chat_token')) {
       if (socket) {
-        chatrooms.map((room) => {
-          socket.emit('joinRoom', {
-            id: room._id
-          })
+        socket.emit('joinRoom', {
+          id: 'dashboard'
         })
-
 
       }
 
       {/*unmounting*/ }
       return () => {
         if (socket) {
-          chatrooms.map((room) => {
-            socket.emit('leaveRoom', {
-              id: room._id
-            })
+          socket.emit('leaveRoom', {
+            id: 'dashboard'
           })
         }
       }
@@ -51,14 +46,17 @@ export default function DashboardPage(props) {
 
       getChatrooms()
 
-      socket.on('updateMessage', ({message,name}) => {
-        makeToast('info',`${name}: ${message}`)
+      socket.on('updateMessage', ({ roomName, name }) => {
+        makeToast('info', `
+        <div>
+          New message in <span class="text-xl text-orange-500">${roomName}</span> from <span class="text-xl text-red-500">${name}</span>
+        </div>`)
       })
 
     } else {
       makeToast('error', 'Please login first.')
       navigate('/login')
-    }    
+    }
 
   }, [])
 
@@ -92,15 +90,17 @@ export default function DashboardPage(props) {
   };
 
   return (
-    <div>
-      <label htmlFor="chatroomName">Chatroom Name</label>
-      <input type='text' name='chatroomName' id='chatroomName' ref={chatroomNameRef}></input>
-      <button onClick={createChatroom}>Create Chatroom</button>
-      <div>
+    <div className="ml-5 text-2xl space-y-10">
+      <div className="space-x-5">
+        <label htmlFor="chatroomName">Chatroom Name</label>
+        <input type='text' name='chatroomName' id='chatroomName' ref={chatroomNameRef} className="border-2" placeholder="Input room name"></input>
+        <button onClick={createChatroom} className="border-2">Create Chatroom</button>
+      </div>
+      <div className="space-y-5">
         {chatrooms.map((room) => (
           <div key={room._id} className="flex flex-row space-x-5">
-            <Link to={'/auth/chatroom/' + room._id} state={{roomName: room.name}}>
-              <button>Chat</button>
+            <Link to={'/auth/chatroom/' + room._id} state={{ roomName: room.name }}>
+              <button className="border-2">Chat</button>
             </Link>
             <div>{room.name}</div>
           </div>

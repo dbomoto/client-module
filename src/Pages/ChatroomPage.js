@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { Buffer } from 'buffer'
 import makeToast from '../Toaster';
 import axios from 'axios';
+import { io } from 'socket.io-client';
 
 
 export default function ChatroomPage(props) {
@@ -12,16 +13,16 @@ export default function ChatroomPage(props) {
     const messageRef = useRef()
     const [userID, setUserID] = useState("");
     const navigate = useNavigate();
-
+    const [roomClients, setRoomClients] = useState([])
     const location = useLocation();
-    const {roomName} = location.state
-
+    const { roomName } = location.state
 
     const sendMessage = () => {
         if (socket) {
             socket.emit('chatroomMessage', {
                 id,
-                message: messageRef.current.value
+                message: messageRef.current.value,
+                roomName
             })
 
             messageRef.current.value = ""
@@ -30,17 +31,17 @@ export default function ChatroomPage(props) {
 
     const getAccount = () => {
         axios.post("http://localhost:4000/user/getinfo",
-          {},
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem('chat_token')
-            }
-          }).then((res) => {
-            setUserID(res.data)
-          }).catch((err) => {
-            setTimeout(getAccount, 3000)
-          })
-      }
+            {},
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem('chat_token')
+                }
+            }).then((res) => {
+                setUserID(res.data)
+            }).catch((err) => {
+                setTimeout(getAccount, 3000)
+            })
+    }
 
     useEffect(() => {
         if (socket) {
@@ -83,27 +84,76 @@ export default function ChatroomPage(props) {
             navigate('/login')
         }
 
+    }, [])
+
+    useEffect(() => {
+        socket.emit('getUsersInRoom', {
+            id
+        })
+
+        socket.on('listOfUsers', ({ users }) => {
+            const list = users.map(({ _id, name }) => {
+                return { _id, name }
+            })
+            setRoomClients(list)
+        })
 
     }, [])
 
+    const addContact = (addID) => {
+        axios.post("http://localhost:4000/user/addcontact",
+            { add: addID },
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem('chat_token')
+                }
+            }).then((res) => {
+                makeToast('success', res.data.message)
+                // setUserID(res.data)
+            }).catch((err) => {
+                makeToast('error', err.message)
+                // setTimeout(addContact, 3000)
+            })
+    }
+
     return (
-        <div>
-            <div>{roomName}</div>
-            <div>
-                <div> {/*content*/}
-                    {messages.map((message, index) => (
-                        <div key={index}>
-                            <span className={userID._id === (message.userID || message.user) ? 'text-blue-500' : 'text-orange-500'}>{message.name}:</span>{" "}{message.message}
+        <div className='text-2xl divide-x-2 divide-gray-700 flex flex-row w-full mb-5'>
+            <div className='w-1/2 px-5 pt-5'> {/*chat section*/}
+                <div className='text-3xl'>Room name: {roomName}</div>
+                <div className='mt-10'>
+                    <div className='space-y-5'> {/*content*/}
+                        {messages.map((message, index) => (
+                            <div key={index} className={userID._id === (message.userID || message.user) ? 'flex flex-row':'flex flex-row-reverse'}>
+                                <span className={userID._id === (message.userID || message.user) ? 'text-blue-500' : 'text-orange-500'}>{message.name}</span><span className='px-5'>{message.message}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <div className='space-y-5 mt-5 flex flex-col place-items-center'> {/*actions*/}
+                        <div>
+                            <input
+                                type="text"
+                                name="message"
+                                placeholder="Say something"
+                                ref={messageRef}
+                                className='text-center border-2'
+                            />
+                        </div>
+                        <div>
+                            <button onClick={sendMessage} className='border-2 text-3xl'>Send</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div className='w-1/2 pl-5 pt-5'> {/*users in the room*/}
+                <div className='text-3xl'>Room users:</div>
+                <div className='space-y-5 mt-10'>
+                    {roomClients.map((user, index) => (
+                        <div key={index} className='flex flex-row justify-between'>
+                            <div>{user.name}</div>
+                            <button className={user._id === userID._id ? 'hidden' : 'border-2'} onClick={() => { addContact(user._id) }}>ADD CONTACT</button>
                         </div>
                     ))}
-                </div>
-                <div> {/*actions*/}
-                    <div>
-                        <input type="text" name="message" placeholder="Say something" ref={messageRef} />
-                    </div>
-                    <div>
-                        <button onClick={sendMessage}>Send</button>
-                    </div>
                 </div>
             </div>
         </div>
