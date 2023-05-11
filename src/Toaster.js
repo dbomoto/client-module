@@ -11,7 +11,7 @@ const Toast = Swal.mixin({
 const makeToast = (type, msg) => {
   Toast.fire({
     icon: type,
-    title: msg,
+    html: msg,
   });
 };
 

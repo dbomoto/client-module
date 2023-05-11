@@ -32,14 +32,30 @@ export default function LoginPage(props) {
 
 
   return (
-    <div>
-      <label htmlFor="email">Email:</label>
-      <input type='email' name='email' id='email' ref={emailRef}></input>
-      <label htmlFor="password">Password:</label>
-      <input type='password' name='password' id='password' ref={passwordRef}></input>
-      <div className='space-x-5'>
-        <button onClick={loginUser}>Login</button>
-        <button onClick={registerUser}>Register</button>
+    <div className='grid place-items-center h-screen text-2xl'>
+      <div className='space-y-10'>
+        <div className='flex flex-row space-x-5'>
+          <label htmlFor="email">Email:</label>
+          <input
+            type='email'
+            name='email'
+            id='email'
+            ref={emailRef}
+            className='border-2'
+            placeholder='example@gmail.com'></input>
+          <label htmlFor="password">Password:</label>
+          <input
+            type='password'
+            name='password'
+            id='password'
+            ref={passwordRef}
+            className='border-2'
+            placeholder='Input password'></input>
+        </div>
+        <div className='space-x-10'>
+          <button onClick={loginUser} className='border-2 text-3xl'>Login</button>
+          <button onClick={registerUser} className='border-2 text-3xl'>Register</button>
+        </div>
       </div>
     </div>
   )

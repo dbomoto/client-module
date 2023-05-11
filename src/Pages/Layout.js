@@ -24,17 +24,19 @@ export default function Layout(props) {
 
   return (
     <>
-        <div>
-            <nav className='border-b-4 flex flex-row justify-end space-x-5'>
-                <button onClick={dashboard}>Dashboard</button>
-                <button onClick={account}>Account</button>
-                <button onClick={logout}>Logout</button>
-            </nav>
+      <div className='relative'>
+        <div className='fixed w-full h-5 bg-white z-10 text-2xl'>
+          <nav className='border-b-4 flex flex-row justify-end bg-white'>
+            <button onClick={dashboard} className='border-2 mr-5'>Dashboard</button>
+            <button onClick={account} className='border-2 mr-5'>Account</button>
+            <button onClick={logout} className='border-2 mr-5'>Logout</button>
+          </nav>
         </div>
 
-        <div>
-            <Outlet></Outlet>
+        <div className='absolute top-14 w-full'>
+          <Outlet ></Outlet>
         </div>
+      </div>
     </>
   )
 }
