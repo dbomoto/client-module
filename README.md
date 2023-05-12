@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# CLIENT MODULE OF CHAT APP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### REQUIREMENTS:
 
-## Available Scripts
+- Install NodeJS Version 14 downloaded here: [https://nodejs.org/en/blog/release/v14.17.3](https://nodejs.org/en/blog/release/v14.17.3)
 
-In the project directory, you can run:
+- Editor of your choice.
 
-### `npm start`
+- Updated Chrome browser. This app was tested on ***Version 113.0.5672.93 (Official Build) (64-bit)***.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### INSTALLATION INSTRUCTIONS:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Download the ***client-module*** on your machine.
 
-### `npm test`
+- Add the environment variables (.env file)
+    - `REACT_APP_SERVER_URL=The URL of the server module` e.g. http://localhost:4000
+    - `PORT=Your prefered port` 
+        - e.g. 5000
+        - Note: This variable only works for development.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Before running the app, make sure the server is already running and connected to the database.
 
-### `npm run build`
+- Two ways to run the app.
+    1. Development build:
+        - Open the app on your editor
+        - Install all the dependencies. Type `npm install` on the terminal.
+        - Type `npm run start` on the terminal. It will run on the port you declared in the .env file.
+        - The app should open directly on your default browser.
+    2. Production build:
+        - Open the app on your editor
+        - Install all the dependencies. Type `npm install` on the terminal.
+        - Type `serve -s build` on the terminal. This will serve your app on port ***3000*** by default.
+        - Open the app in your browser on `http://localhost:3000`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### REFERENCES USED IN BUILDING THE APP:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- https://stackabuse.com/handling-cors-with-node-js/
+- https://reactrouter.com/en/main
+- https://www.w3schools.com/default.asp
+- https://expressjs.com/
+- https://axios-http.com/docs/intro
+- https://ui.dev/react-router-pass-props-to-components
+- https://dirask.com/posts/Node-js-atob-btoa-functions-equivalents-1Aqb51
+- https://stackoverflow.com/questions/68707553/uncaught-referenceerror-buffer-is-not-defined
+- https://www.edureka.co/community/71981/delete-localstorage-item-when-the-browser-window-tab-closed#:~:text=onbeforeunload%20%3D%20function()%20%7B%20localStorage.,the%20close%20window%2Ftab%20action.
+- https://stackoverflow.com/questions/37959945/how-to-destroy-jwt-tokens-on-logout
+- https://morioh.com/p/e0d460ace6fa
+- https://stackoverflow.com/questions/54858622/sweet-alert-2-link-in-confirmbuttontext-button
+- https://medium.com/weekly-webtips/how-to-add-an-emoji-picker-to-an-input-field-in-react-app-d41a2966fcc1
+- https://stackoverflow.com/questions/62795299/join-multiple-rooms-at-once-socket-io
+- https://github.com/ankitkarna99/chat-cosey-back
+- https://ui.dev/react-router-pass-props-to-link
+- https://stackoverflow.com/questions/44617825/passing-headers-with-axios-post-request
+- https://axios-http.com/docs/post_example
+- https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
+- https://stackoverflow.com/questions/26838965/sweet-alert-display-html-code-in-text
+- https://upmostly.com/tutorials/how-to-use-environment-variables-in-reactjs-applications
+- https://www.copycat.dev/blog/reactjs-build-production/
+- https://www.markdownguide.org/basic-syntax/#emphasis

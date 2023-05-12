@@ -9,8 +9,10 @@ export default function AccountPage(props) {
   const socket = props.socket;
   const contacts = account.contacts || []
 
+  
+
   const getAccount = () => {
-    axios.post("http://localhost:4000/user/getinfo",
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/user/getinfo`,
       {},
       {
         headers: {
@@ -23,8 +25,9 @@ export default function AccountPage(props) {
       })
   }
 
+  
   const deleteAccount = () => {
-    axios.delete("http://localhost:4000/user/delete",
+    axios.delete(`${process.env.REACT_APP_SERVER_URL}/user/delete`,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem('chat_token')
@@ -39,8 +42,9 @@ export default function AccountPage(props) {
       })    
   }
 
+  
   const removeContact = (remove) => {
-    axios.post("http://localhost:4000/user/removecontact",
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/user/removecontact`,
       {remove},
       {
         headers: {

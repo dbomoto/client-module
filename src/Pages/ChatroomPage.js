@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import { Buffer } from 'buffer'
 import makeToast from '../Toaster';
 import axios from 'axios';
-import { io } from 'socket.io-client';
 
 
 export default function ChatroomPage(props) {
@@ -28,9 +26,9 @@ export default function ChatroomPage(props) {
             messageRef.current.value = ""
         }
     }
-
+    
     const getAccount = () => {
-        axios.post("http://localhost:4000/user/getinfo",
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/user/getinfo`,
             {},
             {
                 headers: {
@@ -99,9 +97,9 @@ export default function ChatroomPage(props) {
         })
 
     }, [])
-
+    
     const addContact = (addID) => {
-        axios.post("http://localhost:4000/user/addcontact",
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/user/addcontact`,
             { add: addID },
             {
                 headers: {
@@ -109,10 +107,8 @@ export default function ChatroomPage(props) {
                 }
             }).then((res) => {
                 makeToast('success', res.data.message)
-                // setUserID(res.data)
             }).catch((err) => {
                 makeToast('error', err.message)
-                // setTimeout(addContact, 3000)
             })
     }
 

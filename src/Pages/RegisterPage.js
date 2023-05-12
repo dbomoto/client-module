@@ -1,20 +1,22 @@
-import React from 'react'
+import { useRef } from 'react'
 import axios from 'axios'
 import makeToast from '../Toaster'
 import { useNavigate } from "react-router-dom"
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const nameRef = React.createRef();
-  const emailRef = React.createRef();
-  const passwordRef = React.createRef();
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const registerUser = () => {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    axios.post("http://localhost:4000/user/register", {
+    
+    
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/user/register`, {
       name,
       email,
       password

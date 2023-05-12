@@ -1,4 +1,3 @@
-import React from 'react'
 import { useRef } from 'react'
 import axios from 'axios'
 import makeToast from '../Toaster'
@@ -13,7 +12,7 @@ export default function LoginPage(props) {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    axios.post("http://localhost:4000/user/login", {
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/user/login`, {
       email,
       password
     }).then(res => {
