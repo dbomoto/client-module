@@ -10,7 +10,7 @@ export default function DashboardPage(props) {
   const socket = props.socket;
 
   const getChatrooms = () => {
-    axios.get("http://localhost:4000/chatroom", {
+    axios.get(`${process.env.REACT_APP_SERVER_URL}/chatroom`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem('chat_token')
       }
@@ -64,7 +64,7 @@ export default function DashboardPage(props) {
     const chatroomName = chatroomNameRef.current.value;
 
     axios
-      .post("http://localhost:4000/chatroom",
+      .post(`${process.env.REACT_APP_SERVER_URL}/chatroom`,
         {
           name: chatroomName,
         },

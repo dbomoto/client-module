@@ -18,7 +18,7 @@ function App() {
   const setupSocket = () => {
     const token = localStorage.getItem('chat_token') || "";
     if (token.length > 0 && !socket) {
-      const newSocket = io('http://localhost:4000', {
+      const newSocket = io(process.env.REACT_APP_SERVER_URL, {
         query: {
           token: localStorage.getItem("chat_token")
         },
