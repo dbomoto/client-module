@@ -1,6 +1,8 @@
 {
   "name": "client-module",
   "version": "0.1.0",
+  "description": "The client module for my chat app.",
+  "author": "Daniel Benedict L. Omoto <dbomoto@gmail.com> (https://github.com/dbomoto)",  
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
